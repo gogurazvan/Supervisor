@@ -1,20 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
-typedef unsigned int supervisor_t;
+typedef FILE * supervisor_t;
 
 
 supervisor_t supervisor_init(){
-	supervisor_t aux = NULL;
-	return aux;
+	char pr[100];
+	FILE * pipe;
+	pipe = popen("/home/goguletele/Desktop/SuperIdol/supervisor", "r");
+	if(pipe == NULL){
+		perror("eroare initializare");
+		return NULL;
+	}
+
+	return pipe;
 }
 
-int supervisor_close( supervisor_t sub ){
-	return 0;
+int supervisor_close( supervisor_t sup ){
+	if(pclose(sup) == -1){
+		perror("eroare initializare");
+		return -1
+	}
+	return 1;
 }
 
-int int main()
+int main()
 {
-	
+
+	supervisor_t x;
+	x=supervisor_init();
 	return 0;
 }
